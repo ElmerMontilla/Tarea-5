@@ -1,0 +1,32 @@
+/* Estilos personalizados para tu portal web */
+
+/* Fondos para la API del Clima */
+.bg-warning-sunny {
+    background-image: linear-gradient(to bottom right, #FFD700, #FFEA00); /* Tonos de amarillo para soleado */
+    color: #333; /* Texto oscuro para contraste */
+}
+
+.bg-primary-cloudy {
+    background-image: linear-gradient(to bottom right, #B0C4DE, #A9A9A9); /* Tonos de gris/azul para nublado */
+    color: #FFF;
+}
+
+.bg-info-rainy {
+    background-image: linear-gradient(to bottom right, #4682B4, #5F9EA0); /* Tonos de azul/verde para lluvia */
+    color: #FFF;
+}
+
+.bg-dark-stormy {
+    background-image: linear-gradient(to bottom right, #2F4F4F, #000000); /* Tonos oscuros para tormenta */
+    color: #FFF;
+}
+
+.bg-light-snowy {
+    background-image: linear-gradient(to bottom right, #E0FFFF, #ADD8E6); /* Tonos claros para nieve */
+    color: #333;
+}
+
+.bg-secondary-haze {
+    background-image: linear-gradient(to bottom right, #C0C0C0, #808080); /* Tonos de gris para neblina/bruma */
+    color: #FFF;
+}
