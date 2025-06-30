@@ -1,6 +1,6 @@
 <?php include 'inc/header.php'; ?>
 
-<di class="row justify-content-center my-5">
+<div class="row justify-content-center my-5">
     <div class="col-md-6">
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white text-center">
