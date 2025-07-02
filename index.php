@@ -2,7 +2,16 @@
 
 <div class="row justify-content-center text-center my-5">
     <div class="col-md-8">
-        <img src="img/Mi_Foto_2x2.jpg" class="img-fluid rounded-circle mb-4" style="width: 180px; height: 180px; object-fit: cover;">
+        <?php 
+        // Verifica si el archivo de imagen existe antes de mostrarlo
+        $imagePath = 'img/Mi_Foto_2x2.jpg';
+        if (file_exists($imagePath)) {
+            echo '<img src="' . htmlspecialchars($imagePath) . '" class="img-fluid rounded-circle mb-4 profile-pic" alt="Foto de perfil de Elmer Joel Montilla Castro">';
+        } else {
+            echo '<div class="alert alert-warning" role="alert">¡Atención! No se encontró la imagen de perfil en ' . htmlspecialchars($imagePath) . '.</div>';
+            echo '<div class="mb-4 d-inline-block p-4 bg-light rounded-circle shadow-sm" style="width: 180px; height: 180px; line-height: 150px; font-size: 0.9rem; color: #6c757d;">Foto no encontrada</div>';
+        }
+        ?>
         <h1 class="display-4">¡Bienvenido a mi web de APIs!</h1>
         <p class="lead">Hola, mi nombre es Elmer Joel Montilla Castro. Este portal es un proyecto de PHP donde exploro y muestro datos de diversas APIs externas, desde predicciones hasta información de Pokémon.</p>
         <hr class="my-4">
@@ -84,7 +93,16 @@
             </div>
         </div>
 
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <h5 class="card-title">Cita Aleatoria</h5>
+                    <p class="card-text text-muted">Obtén una cita inspiradora o famosa al azar.</p>
+                    <a href="random_quote.php" class="btn btn-outline-primary mt-auto">Ver Cita</a>
+                </div>
+            </div>
         </div>
+    </div>
 </div>
 
 <?php include 'inc/footer.php'; ?>
