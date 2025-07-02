@@ -2,26 +2,44 @@
 
 <?php
 $keyword = $_GET['keyword'] ?? '';
-$imageUrl = null;
+$generatedSvg = null;
 $error = null;
 
 if (!empty($keyword)) {
-    // Limpiar y preparar la palabra clave para la URL
     $searchSeed = urlencode(trim($keyword));
-    
-    // Elegir un estilo de avatar abstracto o de logotipo en DiceBear
-    // Puedes probar otros como 'identicon', 'gridy', 'micah', 'bottts', 'personas'
-    // 'initials' es un buen punto de partida para texto.
-    $imageStyle = 'initials'; 
-    
-    // Construir la URL de la DiceBear API
-    // Ejemplo: https://api.dicebear.com/8.x/initials/svg?seed=palabra_clave&backgroundColor=random&radius=10
-    $imageUrl = "https://api.dicebear.com/8.x/{$imageStyle}/svg?seed={$searchSeed}&backgroundColor=random&radius=10";
-    
-    // --- Diagnóstico Adicional (temporal, puedes quitarlo después) ---
-    // echo "<script>console.log('URL de la imagen generada: " . $imageUrl . "');</script>";
-    // echo "<p>URL de la imagen generada (para depuración): <a href='" . htmlspecialchars($imageUrl) . "' target='_blank'>" . htmlspecialchars($imageUrl) . "</a></p>";
-    // --- Fin Diagnóstico Adicional ---
+    $imageStyle = 'identicon'; // Puedes mantener 'identicon' o 'avataaars'
+
+    // Generar un color hexadecimal aleatorio
+    $randomColor = str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+
+    $apiUrl = "https://api.dicebear.com/8.x/{$imageStyle}/svg?seed={$searchSeed}&backgroundColor={$randomColor}&radius=10";
+
+    // === CÓDIGO DE DEPURACIÓN (déjalo por ahora) ===
+    echo '<div class="alert alert-warning text-center mt-4"><strong>URL de API para depuración:</strong> <a href="' . htmlspecialchars($apiUrl) . '" target="_blank">' . htmlspecialchars($apiUrl) . '</a></div>';
+    // === FIN CÓDIGO DE DEPURACIÓN ===
+
+    // Realizar la solicitud a la API usando cURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $error = "Error al obtener la imagen generada: " . curl_error($ch);
+    } else {
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode >= 400) {
+            $error = "Error HTTP al obtener la imagen. Código: " . $httpCode . ". Mensaje de la API: " . htmlspecialchars($response); // Muestra el mensaje de la API
+        } elseif (strpos(curl_getinfo($ch, CURLINFO_CONTENT_TYPE), 'image/svg+xml') === false) {
+             $error = "La respuesta no es un SVG válido. Tipo: " . curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        }
+        else {
+            $generatedSvg = $response;
+        }
+    }
+    curl_close($ch);
 
 } elseif (isset($_GET['keyword']) && empty($_GET['keyword'])) {
     $error = "Por favor, ingresa una palabra clave para generar una imagen.";
@@ -48,11 +66,13 @@ if (!empty($keyword)) {
                     <div class="alert alert-danger text-center mt-4" role="alert">
                         <?php echo $error; ?>
                     </div>
-                <?php elseif ($imageUrl) : ?>
+                <?php elseif ($generatedSvg) : ?>
                     <div class="mt-4 p-3 border rounded text-center">
                         <h4>Imagen Generada para "<?php echo htmlspecialchars($keyword); ?>"</h4>
-                        <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Imagen generada para <?php echo htmlspecialchars($keyword); ?>" class="img-fluid my-3" style="max-width: 300px; border-radius: 8px;">
-                        <p class="text-muted small">La imagen es generada de forma única a partir de tu palabra clave.</p>
+                        <div style="max-width: 300px; margin: 0 auto; border-radius: 8px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                             <?php echo $generatedSvg; ?>
+                        </div>
+                        <p class="text-muted small mt-3">La imagen es generada de forma única a partir de tu palabra clave.</p>
                     </div>
                 <?php else : ?>
                     <div class="alert alert-info text-center mt-4" role="alert">
