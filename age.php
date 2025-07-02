@@ -17,7 +17,7 @@
                 </form>
 
                 <?php
-                // Verificar si se ha enviado el formulario y el nombre no está vacío
+                / Verificar si se ha enviado el formulario y el nombre no está vacío
                 if (isset($_GET['name']) && !empty($_GET['name'])) {
                     $name = htmlspecialchars($_GET['name']); // Sanitizar el nombre
 
