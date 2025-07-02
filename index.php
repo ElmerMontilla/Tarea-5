@@ -2,16 +2,7 @@
 
 <div class="row justify-content-center text-center my-5">
     <div class="col-md-8">
-        <?php 
-        // Verifica si el archivo de imagen existe antes de mostrarlo
-        $imagePath = 'img/Mi_Foto_2x2.jpg';
-        if (file_exists($imagePath)) {
-            echo '<img src="' . htmlspecialchars($imagePath) . '" class="img-fluid rounded-circle mb-4 profile-pic" alt="Foto de perfil de Elmer Joel Montilla Castro">';
-        } else {
-            echo '<div class="alert alert-warning" role="alert">¡Atención! No se encontró la imagen de perfil en ' . htmlspecialchars($imagePath) . '.</div>';
-            echo '<div class="mb-4 d-inline-block p-4 bg-light rounded-circle shadow-sm" style="width: 180px; height: 180px; line-height: 150px; font-size: 0.9rem; color: #6c757d;">Foto no encontrada</div>';
-        }
-        ?>
+        <img src="img/Mi_Foto_2x2.jpg" class="img-fluid rounded-circle mb-4" style="width: 180px; height: 180px; object-fit: cover; display: block; margin: 0 auto;" alt="Foto de perfil de Elmer Joel Montilla Castro">
         <h1 class="display-4">¡Bienvenido a mi web de APIs!</h1>
         <p class="lead">Hola, mi nombre es Elmer Joel Montilla Castro. Este portal es un proyecto de PHP donde exploro y muestro datos de diversas APIs externas, desde predicciones hasta información de Pokémon.</p>
         <hr class="my-4">

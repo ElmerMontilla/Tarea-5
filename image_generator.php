@@ -8,18 +8,21 @@ $error = null;
 if (!empty($keyword)) {
     // Limpiar y preparar la palabra clave para la URL
     $searchSeed = urlencode(trim($keyword));
-
+    
     // Elegir un estilo de avatar abstracto o de logotipo en DiceBear
-    // Puedes probar otros como 'identicon', 'gridy', 'micah', 'bottts'
-    $imageStyle = 'initials'; // Estilo que genera una imagen basada en iniciales o texto
-
+    // Puedes probar otros como 'identicon', 'gridy', 'micah', 'bottts', 'personas'
+    // 'initials' es un buen punto de partida para texto.
+    $imageStyle = 'initials'; 
+    
     // Construir la URL de la DiceBear API
     // Ejemplo: https://api.dicebear.com/8.x/initials/svg?seed=palabra_clave&backgroundColor=random&radius=10
     $imageUrl = "https://api.dicebear.com/8.x/{$imageStyle}/svg?seed={$searchSeed}&backgroundColor=random&radius=10";
+    
+    // --- Diagnóstico Adicional (temporal, puedes quitarlo después) ---
+    // echo "<script>console.log('URL de la imagen generada: " . $imageUrl . "');</script>";
+    // echo "<p>URL de la imagen generada (para depuración): <a href='" . htmlspecialchars($imageUrl) . "' target='_blank'>" . htmlspecialchars($imageUrl) . "</a></p>";
+    // --- Fin Diagnóstico Adicional ---
 
-    // Opcional: Podrías intentar una llamada cURL para verificar la URL
-    // Pero para DiceBear, si la URL es válida, la imagen se generará.
-    // Los errores suelen ser de red o de URL mal formada, no de la API en sí.
 } elseif (isset($_GET['keyword']) && empty($_GET['keyword'])) {
     $error = "Por favor, ingresa una palabra clave para generar una imagen.";
 }
